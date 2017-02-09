@@ -3,6 +3,11 @@ var path = require('path');     // 原生path模块
 var express = require('express');   // 引入express
 var app = express();
 var bodyParser = require('body-parser');    // bodyParser 已经不再与Express捆绑，需要独立安装
+var mongoose = require('mongoose'); // 引入mongoose来连接数据库
+var Movie = require('./models/movie');  // 引入movie模型
+
+// 连接mongodb，数据库的名字是movie_website
+mongoose.connect('mongodb://localhost/movie_website');
 
 // 设置视图根目录
 app.set('views', './views/pages');
@@ -23,33 +28,20 @@ console.log('movie-website start on port ' + port);
 // 路由
 // index page
 app.get('/', function (req, res) {
-    res.render('index', {
-        title: '首页',
-        movies: [{
-            title: '机械战警',
-            _id: 1,
-            poster: 'http://img.hb.aicdn.com/5b3b2c0ca80db806d90c4bd01c2510983c1981da1151c-yB0ipk_sq320'
-        }, {
-            title: '机械战警',
-            _id: 2,
-            poster: 'http://img.hb.aicdn.com/5b3b2c0ca80db806d90c4bd01c2510983c1981da1151c-yB0ipk_sq320'
-        }, {
-            title: '机械战警',
-            _id: 3,
-            poster: 'http://img.hb.aicdn.com/5b3b2c0ca80db806d90c4bd01c2510983c1981da1151c-yB0ipk_sq320'
-        }, {
-            title: '机械战警',
-            _id: 4,
-            poster: 'http://img.hb.aicdn.com/5b3b2c0ca80db806d90c4bd01c2510983c1981da1151c-yB0ipk_sq320'
-        }, {
-            title: '机械战警',
-            _id: 5,
-            poster: 'http://img.hb.aicdn.com/5b3b2c0ca80db806d90c4bd01c2510983c1981da1151c-yB0ipk_sq320'
-        }]
+    Movie.fetch(function (err, movies) {
+        if (err) {
+            console.log(err);
+        }
+        res.render('index', {
+            title: '首页',
+            movies: movies
+        });
     });
+
 });
 
 // detail page
+// :id的好处是在req.params就能拿到id这个参数值
 app.get('/movie/:id', function (req, res) {
     res.render('detail', {
         title: '详情',
