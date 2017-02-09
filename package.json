@@ -1,0 +1,25 @@
+{
+  "name": "movie-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BadWaka/movie-website.git"
+  },
+  "author": "waka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BadWaka/movie-website/issues"
+  },
+  "homepage": "https://github.com/BadWaka/movie-website#readme",
+  "dependencies": {
+    "express": "^4.14.1",
+    "jade": "^1.11.0",
+    "moment": "^2.17.1",
+    "mongoose": "^4.8.1"
+  }
+}
