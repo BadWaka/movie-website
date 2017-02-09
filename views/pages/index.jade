@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+    // 这里的.container和.row都是bootstrap里定义的类名
+    .container
+        .row
+            // 对电影列表数组进行遍历
+            each item in movies
+                // 网格布局 中等屏幕 2
+                .col-md-2
+                    // 缩略图样式
+                    .thumbnail
+                        a(href="/movie/#{item._id}")
+                        img(src="#{item.poster}",alt="#{item.title}")
+                    .caption
+                        h3 #{item.title}
+                        p: a.btn.btn-primary(href="/movie/#{item._id}",role="button")
+                            观看预告片
+

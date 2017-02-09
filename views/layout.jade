@@ -1,0 +1,14 @@
+// 抽象出一个公共的结构
+doctype
+html
+    head
+        meta(charset="utf-8")
+        title #{title}
+        // 引入样式; head代表外部依赖样式,比如jquery和bootstrap
+        include ./includes/head
+    body
+        // 引入样式; header相当于是一个复用的组件
+        include ./includes/header
+        // 具体内容
+        block content
+        h1 #{title}
