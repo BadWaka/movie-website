@@ -14,7 +14,7 @@ app.set('views', './views/pages');
 // 设置模板引擎node
 app.set('view engine', 'jade');
 
-// 引入静态资源
+// 引入静态资源，这样jade里才能找到要引入文件的路径
 app.use(express.static(path.join(__dirname, 'public')));
 // 使用body-parser格式化表单
 app.use(bodyParser.urlencoded());
