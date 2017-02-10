@@ -39,6 +39,7 @@ app.get('/', function (req, res) {
     Movie.fetch(function (err, movies) {
         if (err) {
             console.log(err);
+            return;
         }
         res.render('index', {
             title: '首页',
@@ -56,6 +57,7 @@ app.get('/movie/:id', function (req, res) {
     Movie.findById(id, function (err, movie) {
         if (err) {
             console.log(err);
+            return;
         }
         res.render('detail', {
             title: movie.title,
@@ -109,11 +111,13 @@ app.post('/admin/movie/new', function (req, res) {
         Movie.findById(id, function (err, movie) {
             if (err) {
                 console.log(err);
+                return;
             }
             _movie = _.extend(movie, moviePost); // 用Post过来的新的字段，替换掉数据库里查询到的老的字段
             _movie.save(function (err, movie) {
                 if (err) {
                     console.log(err);
+                    return;
                 }
                 // 重新跳转到电影详情页
                 res.redirect('/movie/' + movie._id);
@@ -124,6 +128,7 @@ app.post('/admin/movie/new', function (req, res) {
         // Movie.findOneAndUpdate({_id: id}, moviePost, function (err, movie) {
         //     if (err) {
         //         console.log(err);
+        //             return;
         //     }
         //     res.redirect('/movie/' + movie._id);
         // });
@@ -145,6 +150,7 @@ app.post('/admin/movie/new', function (req, res) {
         _movie.save(function (err, movie) {
             if (err) {
                 console.log(err);
+                return;
             }
             res.redirect('/movie/' + movie._id);
         });
@@ -159,6 +165,7 @@ app.get('/admin/update/:id', function (req, res) {
         Movie.findById(id, function (err, movie) {
             if (err) {
                 console.log(err);
+                return;
             }
             res.render('admin', {
                 title: '后台更新页',
@@ -174,6 +181,7 @@ app.get('/admin/list', function (req, res) {
     Movie.fetch(function (err, movies) {
         if (err) {
             console.log(err);
+            return;
         }
         res.render('list', {
             title: '列表',
@@ -195,4 +203,23 @@ app.get('/admin/list', function (req, res) {
     //         summary: '简介'
     //     }]
     // });
+});
+
+// admin list delete movie
+app.delete('/admin/list', function (req, res) {
+    // 这里取id的方法是因为通过?id传过来的，所以需要用query来取
+    var id = req.query.id;
+    console.log(req.query);
+
+    if (id) {
+        Movie.remove({_id: id}, function (err, movie) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            res.json({
+                success: 1
+            });
+        });
+    }
 });

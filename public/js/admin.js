@@ -3,12 +3,13 @@ $(function () {
     $('.del').click(function (e) {
         var target = $(e.target);   // 拿到e的目标的dom
         var id = target.data('id'); // 拿到id
+        console.log('ajax param id = ' + id);
         var tr = $('.item-id-' + id);   // 拿到那一行的dom
 
         // ajax请求删除
         $.ajax({
             type: 'DELETE',
-            url: '/admin/list?id' + id
+            url: '/admin/list?id=' + id
         }).done(function (results) {
             // 如果删除成功
             if (results.success === 1) {
