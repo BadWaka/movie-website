@@ -1,0 +1,22 @@
+{
+  "name": "movie-website",
+  "description": "根据慕课网教程编写的简单电影网站",
+  "main": "app.js",
+  "authors": [
+    "waka"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/BadWaka/movie-website",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}

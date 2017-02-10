@@ -108,30 +108,30 @@ app.post('/admin/movie/new', function (req, res) {
     if (id !== 'undefined') {
 
         // 方法1: 使用underscore的_.extend()方法，并手动保存
-        Movie.findById(id, function (err, movie) {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            _movie = _.extend(movie, moviePost); // 用Post过来的新的字段，替换掉数据库里查询到的老的字段
-            _movie.save(function (err, movie) {
-                if (err) {
-                    console.log(err);
-                    return;
-                }
-                // 重新跳转到电影详情页
-                res.redirect('/movie/' + movie._id);
-            });
-        });
-
-        // 方法2(推荐): 使用mongoose的findOneAndUpdate()方法
-        // Movie.findOneAndUpdate({_id: id}, moviePost, function (err, movie) {
+        // Movie.findById(id, function (err, movie) {
         //     if (err) {
         //         console.log(err);
-        //             return;
+        //         return;
         //     }
-        //     res.redirect('/movie/' + movie._id);
+        //     _movie = _.extend(movie, moviePost); // 用Post过来的新的字段，替换掉数据库里查询到的老的字段
+        //     _movie.save(function (err, movie) {
+        //         if (err) {
+        //             console.log(err);
+        //             return;
+        //         }
+        //         // 重新跳转到电影详情页
+        //         res.redirect('/movie/' + movie._id);
+        //     });
         // });
+
+        // 方法2(推荐): 使用mongoose的findOneAndUpdate()方法
+        Movie.findOneAndUpdate({_id: id}, moviePost, function (err, movie) {
+            if (err) {
+                console.log(err);
+                    return;
+            }
+            res.redirect('/movie/' + movie._id);
+        });
     }
     // id是undefined，则代表
     else {
