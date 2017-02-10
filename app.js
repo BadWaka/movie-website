@@ -15,7 +15,7 @@ app.set('views', './views/pages');
 app.set('view engine', 'jade');
 
 // 引入静态资源
-app.use(express.static(path.join(__dirname, 'bower_components')));
+app.use(express.static(path.join(__dirname, 'public')));
 // 使用body-parser格式化表单
 app.use(bodyParser.urlencoded());
 
