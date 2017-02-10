@@ -9,7 +9,7 @@ var MovieSchema = new mongoose.Schema({
     summary: String,
     flash: String,
     poster: String,
-    yearL: Number,
+    yearL: String,
     meta: {
         createAt: {
             type: Date, // 日期类型
@@ -24,7 +24,7 @@ var MovieSchema = new mongoose.Schema({
 
 
 // pre()的意思是，每次进行save操作之前，都会调用这个方法
-MovieSchema.pre('save', function () {
+MovieSchema.pre('save', function (next) {
     // 判断数据是否是新添加的
     if (this.isNew) {
         // 如果是，则将创建时间和更新时间都设置为当前时间

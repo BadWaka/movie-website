@@ -19,6 +19,9 @@ app.use(express.static(path.join(__dirname, 'bower_components')));
 // 使用body-parser格式化表单
 app.use(bodyParser.urlencoded());
 
+// 引入moment；app.locals定义的键值对能在模板中直接访问
+app.locals.moment = require('moment');
+
 // 连接mongodb，数据库的名字是movie_website
 mongoose.connect('mongodb://localhost/movie_website');
 
@@ -128,7 +131,16 @@ app.post('/admin/movie/new', function (req, res) {
     // id是undefined，则代表
     else {
         // 调用构造函数新建一个movie对象
-        _movie = new Movie(moviePost);
+        _movie = new Movie({
+            title: moviePost.title,
+            director: moviePost.director,
+            country: moviePost.country,
+            year: moviePost.year,
+            poster: moviePost.poster,
+            language: moviePost.language,
+            flash: moviePost.flash,
+            summary: moviePost.summary
+        });
         // 保存
         _movie.save(function (err, movie) {
             if (err) {
