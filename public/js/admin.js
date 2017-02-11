@@ -9,7 +9,7 @@ $(function () {
         // ajax请求删除
         $.ajax({
             type: 'DELETE',
-            url: '/admin/list?id=' + id
+            url: '/movieWebsite/admin/list?id=' + id
         }).done(function (results) {
             // 如果删除成功
             if (results.success === 1) {

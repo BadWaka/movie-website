@@ -134,7 +134,7 @@ apiRoutes.post('/admin/movie/new', function (req, res) {
                 console.log(err);
                 return;
             }
-            res.redirect('/movie/' + movie._id);
+            res.redirect('/movieWebsite/movie/' + movie._id);
         });
     }
     // id是undefined，则代表
@@ -156,7 +156,7 @@ apiRoutes.post('/admin/movie/new', function (req, res) {
                 console.log(err);
                 return;
             }
-            res.redirect('/movie/' + movie._id);
+            res.redirect('/movieWebsite/movie/' + movie._id);
         });
     }
 });
