@@ -2,7 +2,12 @@
 
 > GitHub地址：https://github.com/BadWaka/movie-website
 
+> 现已部署在：http://www.badwaka.cn:3000/movieWebsite
+
 根据慕课网视频编写的简单电影网站
+
+![](http://upload-images.jianshu.io/upload_images/1828354-63208860584c6911.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 
 #运行
 ```
