@@ -8,6 +8,8 @@ var Movie = require('./models/movie');  // 引入Movie模型
 
 // 初始化app
 var app = express();
+// 定义express的路由
+var apiRoutes = express.Router();
 
 // 设置视图根目录
 app.set('views', './views/pages');
@@ -18,12 +20,14 @@ app.set('view engine', 'jade');
 app.use(express.static(path.join(__dirname, 'public')));
 // 使用body-parser格式化表单
 app.use(bodyParser.urlencoded());
+// 使用该路由；所有的路由都要加上/blogWaka，举个栗子：localhost:8080/blogWaka/articles
+app.use('/movieWebsite', apiRoutes);
 
 // 引入moment；app.locals定义的键值对能在模板中直接访问
 app.locals.moment = require('moment');
 
 // 连接mongodb，数据库的名字是movie_website
-mongoose.connect('mongodb://localhost/movie_website');
+mongoose.connect('mongodb://localhost/movieWebsite');
 
 // 监听端口
 var port = process.env.PORT || 3000;
@@ -34,7 +38,7 @@ console.log('movie-website start on port ' + port);
 
 // 路由
 // index page
-app.get('/', function (req, res) {
+apiRoutes.get('/', function (req, res) {
     // 调用Movie.fetch，从数据库中取出所有数据
     Movie.fetch(function (err, movies) {
         if (err) {
@@ -50,7 +54,7 @@ app.get('/', function (req, res) {
 
 // detail page
 
-app.get('/movie/:id', function (req, res) {
+apiRoutes.get('/movie/:id', function (req, res) {
     var id = req.params.id; // :id的好处是在req.params就能拿到id这个参数值
 
     // 调用Movie.findById，从数据库中根据id取出单个电影数据
@@ -82,7 +86,7 @@ app.get('/movie/:id', function (req, res) {
 });
 
 // admin page 后台录入页
-app.get('/admin/movie', function (req, res) {
+apiRoutes.get('/admin/movie', function (req, res) {
     res.render('admin', {
         title: '后台录入',
         movie: {
@@ -99,7 +103,7 @@ app.get('/admin/movie', function (req, res) {
 });
 
 // admin post movie 后台添加电影接口
-app.post('/admin/movie/new', function (req, res) {
+apiRoutes.post('/admin/movie/new', function (req, res) {
     var id = req.body.movie._id;
     var moviePost = req.body.movie;
     var _movie; // 定义临时变量，用来保存修改过但是还未存入数据库的movie
@@ -128,7 +132,7 @@ app.post('/admin/movie/new', function (req, res) {
         Movie.findOneAndUpdate({_id: id}, moviePost, function (err, movie) {
             if (err) {
                 console.log(err);
-                    return;
+                return;
             }
             res.redirect('/movie/' + movie._id);
         });
@@ -158,7 +162,7 @@ app.post('/admin/movie/new', function (req, res) {
 });
 
 // admin update movie 更新电影，主要是在列表页点击更新按钮后要跳转到
-app.get('/admin/update/:id', function (req, res) {
+apiRoutes.get('/admin/update/:id', function (req, res) {
     var id = req.params.id;
 
     if (id) {
@@ -176,7 +180,7 @@ app.get('/admin/update/:id', function (req, res) {
 });
 
 // admin list page
-app.get('/admin/list', function (req, res) {
+apiRoutes.get('/admin/list', function (req, res) {
 
     Movie.fetch(function (err, movies) {
         if (err) {
@@ -206,7 +210,7 @@ app.get('/admin/list', function (req, res) {
 });
 
 // admin list delete movie
-app.delete('/admin/list', function (req, res) {
+apiRoutes.delete('/admin/list', function (req, res) {
     // 这里取id的方法是因为通过?id传过来的，所以需要用query来取
     var id = req.query.id;
     console.log(req.query);
